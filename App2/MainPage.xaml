@@ -17,11 +17,12 @@
                 </LinearGradientBrush>
             </Image.FocusVisualSecondaryBrush>
         </Image>
-        <RadioButton x:Name="firstOption" HorizontalAlignment="Left" Margin="240,540,0,0" VerticalAlignment="Top" Checked="RadioButton_Checked" GroupName="radioGroup" Content="RadioButton">
+        <RadioButton x:Name="firstOption" HorizontalAlignment="Left" Margin="240,540,0,0" VerticalAlignment="Top" GroupName="radioGroup" Content="RadioButton">
         </RadioButton>
         <RadioButton x:Name="secondOption" Content="RadioButton" HorizontalAlignment="Left" Margin="240,600,0,0" VerticalAlignment="Top" GroupName="radioGroup"/>
         <RadioButton x:Name="thirdOption" Content="RadioButton" HorizontalAlignment="Left" Margin="240,660,0,0" VerticalAlignment="Top" GroupName="radioGroup"/>
         <Button x:Name="nextQuestion" Content="Button" HorizontalAlignment="Center" Margin="0,820,0,0" VerticalAlignment="Top"/>
         <TextBlock x:Name="questionText" HorizontalAlignment="Center" Margin="0,430,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBlock x:Name="result" HorizontalAlignment="Center" Margin="0,750,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top"/>
     </Grid>
 </Page>

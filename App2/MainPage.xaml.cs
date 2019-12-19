@@ -1,17 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // O modelo de item de Página em Branco está documentado em https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x416
 
@@ -26,11 +16,12 @@ namespace App2
         RadioButton TrueOption { get; set; }
         int Hits { get; set; }
         int Iterator { get; set; }
+        List<RadioButton> radios { get; set; }
 
         public MainPage()
         {
             this.Hits = 0;
-            this.Iterator = 1;
+            this.Iterator = 0;
             this.InitializeComponent();
             Questions = new List<Question>()
             {
@@ -53,49 +44,76 @@ namespace App2
                     new Option("Urano", false)
                 })
             };
+            nextQuestion.Content = "Próxima";
+            
+            PopulateLayoutObjects();
+            GetTrueOption();
+            nextQuestion.Click += NextQuestion;
+            Iterator++;
 
-            List<RadioButton> radios = new List<RadioButton>() {
-                firstOption, secondOption, thirdOption
-            };
+        }
 
-            int n = 2;
-            int i = 0;
-
-            do
+        private void NextQuestion(object sender, RoutedEventArgs e)
+        {
+            if (TrueOption.IsChecked ?? false)
             {
-                int rnd = new Random().Next(n);
-                radios[rnd].Content = Questions[0].Options[i].OptionText;
-                radios[rnd].Tag = Questions[0].Options[i].Answer;
-                radios.Remove(radios[rnd]);
-                n--;
-                i++;
-            } while (n > 0);
+                Hits++;
+            }
 
-            if ((bool) firstOption.Tag)
+            if (Iterator < 3)
+            {
+                
+                PopulateLayoutObjects();
+                GetTrueOption();
+                Iterator++;
+
+            } else
+            {
+                result.Text = "Você acertou: " + Hits.ToString() + " vezes!";
+                nextQuestion.IsEnabled = false;
+            }
+        }
+
+        private void GetTrueOption()
+        {
+            if ((bool)firstOption.Tag)
             {
                 TrueOption = firstOption;
             }
 
-            if ((bool) secondOption.Tag)
+            if ((bool)secondOption.Tag)
             {
                 TrueOption = secondOption;
             }
 
-            if ((bool) thirdOption.Tag)
+            if ((bool)thirdOption.Tag)
             {
                 TrueOption = thirdOption;
             }
-
-            nextQuestion.Click += NextQuestion;
         }
 
-        private void NextQuestion(object sender, RoutedEventArgs e) 
+        private void PopulateLayoutObjects()
         {
-            if (TrueOption.IsChecked ?? false)
-            {
+            questionText.Text = Questions[Iterator].QuestionText;
 
-            }
-        }       
+            radios = new List<RadioButton>() {
+                firstOption, secondOption, thirdOption
+            };
+
+            int n = 3;
+            int i = 0;
+            Random rndGen = new Random();
+            do
+            {
+                int rnd = rndGen.Next(n);
+                radios[rnd].Content = Questions[Iterator].Options[i].OptionText;
+                radios[rnd].Tag = Questions[Iterator].Options[i].Answer;
+                radios.Remove(radios[rnd]);
+                n--;
+                i++;
+
+            } while (n >= 1);
+        }
     }
 
     public class Question
